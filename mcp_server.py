@@ -28,6 +28,12 @@ logger.info(f"DATABASE_URL configured: {DATABASE_URL[:20]}...")
 # Créer l'application FastAPI
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_event():
+    """Log au démarrage."""
+    logger.info("✓ Aligneurs MCP Server started successfully")
+    logger.info("✓ Endpoints: / (health), /sse (SSE), /message (JSON-RPC)")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
