@@ -26,13 +26,17 @@ if not DATABASE_URL:
 logger.info(f"DATABASE_URL configured: {DATABASE_URL[:20]}...")
 
 # Créer l'application FastAPI
-app = FastAPI()
+from contextlib import asynccontextmanager
 
-@app.on_event("startup")
-async def startup_event():
-    """Log au démarrage."""
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan event handler."""
     logger.info("✓ Aligneurs MCP Server started successfully")
     logger.info("✓ Endpoints: / (health), /sse (SSE), /message (JSON-RPC)")
+    yield
+    logger.info("Shutting down...")
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
