@@ -12,8 +12,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code du serveur MCP
 COPY mcp_server.py .
 
-# Exposer le port (optionnel pour MCP stdio)
+# Exposer le port pour HTTP/SSE
 EXPOSE 8000
+
+# Railway injecte automatiquement la variable PORT
+ENV PORT=8000
 
 # Commande de démarrage
 CMD ["python", "mcp_server.py"]

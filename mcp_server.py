@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Serveur MCP pour interroger la base PostgreSQL des activités aligneurs
-Déployable sur Railway
+Déployable sur Railway avec transport HTTP/SSE pour Dust
 """
 
 from mcp.server.fastmcp import FastMCP
@@ -15,8 +15,11 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is required")
 
-# Créer le serveur MCP
-mcp = FastMCP("Aligneurs Database")
+# Configuration du serveur
+PORT = int(os.getenv('PORT', 8000))
+
+# Créer le serveur MCP avec transport HTTP
+mcp = FastMCP("Aligneurs Database", host="0.0.0.0", port=PORT)
 
 def get_connection():
     """Obtenir une connexion à la base de données"""
