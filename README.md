@@ -1,6 +1,19 @@
-# Import CSV vers PostgreSQL - Aligneurs Français
+# Aligneurs MCP Server
 
-Ce projet permet d'importer les données d'activités depuis un fichier CSV vers une base de données PostgreSQL.
+Serveur MCP (Model Context Protocol) pour interroger une base PostgreSQL d'activités aligneurs, avec outils d'import CSV.
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/aligneurs-mcp)
+
+## 🚀 Déploiement rapide sur Railway
+
+Cliquez sur le bouton ci-dessus ou suivez le guide [DEPLOY_RAILWAY.md](DEPLOY_RAILWAY.md)
+
+## 📋 Fonctionnalités
+
+- **Serveur MCP** avec 7 outils pour interroger la base PostgreSQL
+- **Import CSV optimisé** vers PostgreSQL (156k+ lignes)
+- **Schéma PostgreSQL** complet pour données d'activités
+- **Déployable sur Railway** en un clic
 
 ## Structure de la base de données
 

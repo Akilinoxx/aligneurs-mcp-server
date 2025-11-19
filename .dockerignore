@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+venv/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data files
+*.csv
+
+# Git
+.git/
+.gitignore
+
+# Documentation (pas nécessaire dans l'image)
+README.md
+README_MCP.md
+DEPLOY_RAILWAY.md
+
+# Scripts d'import (pas nécessaires pour le serveur MCP)
+import_csv_to_postgres.py
+import_csv_optimized.py
+create_schema.py
+setup_railway.sh
+schema.sql

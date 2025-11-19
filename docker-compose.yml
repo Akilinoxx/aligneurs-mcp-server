@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build: .
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    restart: unless-stopped
+    
+  # Service PostgreSQL optionnel pour développement local
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=railway
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

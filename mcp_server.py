@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Serveur MCP pour interroger la base PostgreSQL des activités aligneurs
+Déployable sur Railway
 """
 
 from mcp.server.fastmcp import FastMCP
@@ -8,10 +9,11 @@ import psycopg
 import os
 
 # Configuration de la base de données
-DATABASE_URL = os.getenv(
-    'DATABASE_URL',
-    'postgresql://postgres:UqtALrZoRLKifgxpMKUhVcfBYGOIdRDK@crossover.proxy.rlwy.net:12593/railway'
-)
+# Railway injecte automatiquement DATABASE_URL
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is required")
 
 # Créer le serveur MCP
 mcp = FastMCP("Aligneurs Database")
