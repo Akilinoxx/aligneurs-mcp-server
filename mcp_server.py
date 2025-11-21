@@ -15,6 +15,9 @@ if not DATABASE_URL:
 # Créer le serveur MCP
 mcp = FastMCP("Aligneurs Database")
 
+# Créer l'application ASGI pour Railway
+app = mcp.get_asgi_app()
+
 def get_connection():
     """Obtenir une connexion à la base de données"""
     return psycopg.connect(DATABASE_URL)

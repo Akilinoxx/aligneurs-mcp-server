@@ -1,13 +1,13 @@
 # Intégration avec Dust.tt
 
-Ce serveur MCP est configuré pour fonctionner avec Dust via le transport HTTP/SSE.
+Ce serveur MCP est configuré pour fonctionner avec Dust via le transport HTTP.
 
 ## URL du serveur
 
 Une fois déployé sur Railway, votre serveur MCP sera accessible à :
 
 ```
-https://votre-service.up.railway.app/message
+https://votre-service.up.railway.app/mcp
 ```
 
 ## Configuration dans Dust
@@ -15,8 +15,8 @@ https://votre-service.up.railway.app/message
 1. Allez dans Dust.tt
 2. Ajoutez un nouveau MCP server
 3. Configurez le transport :
-   - **Type** : SSE (Server-Sent Events)
-   - **URL** : `https://votre-service.up.railway.app/message`
+   - **Type** : HTTP
+   - **URL** : `https://votre-service.up.railway.app/mcp`
 
 ## Endpoints disponibles
 
