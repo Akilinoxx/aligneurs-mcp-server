@@ -16,7 +16,7 @@ if not DATABASE_URL:
 mcp = FastMCP("Aligneurs Database")
 
 # Créer l'application ASGI pour Railway
-app = mcp.get_asgi_app()
+app = mcp.http_app()
 
 def get_connection():
     """Obtenir une connexion à la base de données"""
