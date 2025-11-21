@@ -6,11 +6,16 @@ import os
 import asyncio
 import psycopg
 from mcp.server import Server
-from mcp.server.stdio import stdio_server
+from mcp.server.sse import SseServerTransport
+from starlette.applications import Starlette
+from starlette.routing import Route
 from mcp.types import Tool, TextContent
+import uvicorn
 
 # Configuration
 DATABASE_URL = os.getenv('DATABASE_URL')
+PORT = int(os.getenv('PORT', 8000))
+
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL required")
 
@@ -18,9 +23,9 @@ def get_connection():
     return psycopg.connect(DATABASE_URL)
 
 # Créer le serveur MCP
-app = Server("aligneurs-db")
+mcp_server = Server("aligneurs-db")
 
-@app.list_tools()
+@mcp_server.list_tools()
 async def list_tools() -> list[Tool]:
     return [
         Tool(
@@ -46,7 +51,7 @@ async def list_tools() -> list[Tool]:
         )
     ]
 
-@app.call_tool()
+@mcp_server.call_tool()
 async def call_tool(name: str, arguments: dict) -> list[TextContent]:
     if name == "query_sql":
         sql = arguments["sql"]
@@ -110,9 +115,24 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
     
     return [TextContent(type="text", text="Unknown tool")]
 
-async def main():
-    async with stdio_server() as (read_stream, write_stream):
-        await app.run(read_stream, write_stream, app.create_initialization_options())
+# Créer l'application Starlette avec SSE
+sse = SseServerTransport("/messages")
+
+async def handle_sse(request):
+    async with sse.connect_sse(request.scope, request.receive, request._send) as streams:
+        await mcp_server.run(
+            streams[0], streams[1], mcp_server.create_initialization_options()
+        )
+
+async def handle_messages(request):
+    await sse.handle_post_message(request.scope, request.receive, request._send)
+
+app = Starlette(
+    routes=[
+        Route("/sse", endpoint=handle_sse),
+        Route("/messages", endpoint=handle_messages, methods=["POST"]),
+    ]
+)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
