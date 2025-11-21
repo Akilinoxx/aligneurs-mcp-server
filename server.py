@@ -75,7 +75,9 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             conn.close()
             return [TextContent(type="text", text=result)]
         except Exception as e:
-            return [TextContent(type="text", text=f"Error: {e}")]
+            import traceback
+            error_detail = traceback.format_exc()
+            return [TextContent(type="text", text=f"Error: {e}\n\nDetails:\n{error_detail}")]
     
     elif name == "get_stats":
         sql = """
@@ -95,7 +97,9 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             conn.close()
             return [TextContent(type="text", text=f"Total: {row[0]}, Patients: {row[1]}, Period: {row[2]} to {row[3]}")]
         except Exception as e:
-            return [TextContent(type="text", text=f"Error: {e}")]
+            import traceback
+            error_detail = traceback.format_exc()
+            return [TextContent(type="text", text=f"Error: {e}\n\nDetails:\n{error_detail}")]
     
     elif name == "get_schema":
         try:
@@ -111,7 +115,9 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
             conn.close()
             return [TextContent(type="text", text=result)]
         except Exception as e:
-            return [TextContent(type="text", text=f"Error: {e}")]
+            import traceback
+            error_detail = traceback.format_exc()
+            return [TextContent(type="text", text=f"Error: {e}\n\nDetails:\n{error_detail}")]
     
     return [TextContent(type="text", text="Unknown tool")]
 
