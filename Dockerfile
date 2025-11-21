@@ -9,7 +9,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code source et le script de démarrage
-COPY mcp_server.py ./
+COPY server.py ./
 COPY start.sh ./
 
 # Rendre le script exécutable
